@@ -3,14 +3,14 @@ server:
 spring: 
   cloud:
     config:
-      name: microservice-config-server
+      #name: microservice-config-server
       profile: dev 
       label: master
       discovery:
         enabled: true
         service-id:  microservice-config-server
   application:
-    name: microservice-bookmark
+    name: bookmark
   rabbitmq: 
     host: localhost
     port: 5672
@@ -43,4 +43,4 @@ management:
   security:
     enabled: false
 
-profile: testdev
+profile: devttt
