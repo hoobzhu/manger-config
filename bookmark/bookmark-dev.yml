@@ -3,12 +3,11 @@ server:
 spring: 
   cloud:
     config:
-      #name: microservice-config-server
       profile: dev 
       label: master
       discovery:
         enabled: true
-        service-id:  microservice-config-server
+        service-id:  config-server
   application:
     name: bookmark
   rabbitmq: 
