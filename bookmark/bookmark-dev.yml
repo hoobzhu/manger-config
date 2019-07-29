@@ -43,4 +43,4 @@ management:
   security:
     enabled: false
 
-profile: devttt
+profile: dev
