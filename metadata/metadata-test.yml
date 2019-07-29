@@ -10,6 +10,11 @@ spring:
         service-id:  config-server
   application:
     name: metadata
+  rabbitmq: 
+    host: localhost
+    port: 5672
+    username: hoob
+    password: zhuqinhe
   datasource: 
     url: jdbc:mysql://172.16.0.36:3306/epgdb_v3r3_new?useUnicode=true&characterEncoding=UTF-8
     username: appuser
