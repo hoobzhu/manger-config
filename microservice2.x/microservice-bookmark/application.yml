@@ -41,5 +41,9 @@ hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
 management:                  
   security:
     enabled: false
+  endpoints: 
+    web:
+      exposure:
+        include: bus-refresh #暴漏shutdown端点服务
 
 profile: default

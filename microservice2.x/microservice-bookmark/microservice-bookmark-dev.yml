@@ -44,10 +44,5 @@ management:
   endpoints: 
     web:
       exposure:
-        include: bus-refresh #暴漏shutdown端点服务
-  endpoint:
-    shutdown:
-      enabled: true
-    health: 
-      show-details: ALWAYS     
+        include: bus-refresh #暴漏shutdown端点服务     
 profile: hoob-dev
