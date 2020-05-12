@@ -3,7 +3,7 @@ server:
 spring: 
   cloud: 
     config: 
-      profile: dev 
+      profile: default 
       label: master
       discovery: 
         enabled: true
