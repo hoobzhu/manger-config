@@ -1,28 +1,21 @@
 server:
-  port: 6900
-spring: 
+  port: 8081
+spring:
   cloud: 
     config: 
       profile: dev 
       label: master
       discovery: 
+        fail-fast: true
         enabled: true
         service-id:  config-server
-  application:
-    name: microservice-bookmark
   rabbitmq: 
     host: localhost
     port: 5672
     username: hoob
-    password: zhuqinhe
-  data: 
-    mongodb: 
-      uri: mongodb://localhost:27017/favorite
-      option: 
-        min-connection-per-host: 0
-        max-connection-per-host: 10
-        max-wait-time: 10000
-        connect-timeout : 30000
+    password: zhuqinhe 
+  application:
+    name: microservice-bookmar-consumer
 logging:
   level:
     root: INFO
@@ -43,11 +36,14 @@ eureka:
     # 如果该值设置太小了，则instance则很可能因为临时的网络抖动而被摘除掉。
     # 该值至少应该大于 leaseRenewalIntervalInSeconds
     lease-expiration-duration-in-seconds: 10    
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
-#代码里面暴露/hystrix.stream
-#management:                  
-#  endpoints: 
-#    web:
-#      exposure:
-#        include: "*"     
-profile: hoob-dev
+management:
+  endpoints: 
+    web:
+      exposure:
+        include: "*"      
+microservice-bookmark: #收藏微服务选用轮训的负载均衡方式
+  ribbon: 
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule  
+microservice-favorite: #收藏微服务选用轮训的负载均衡方式
+  ribbon: 
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule    
