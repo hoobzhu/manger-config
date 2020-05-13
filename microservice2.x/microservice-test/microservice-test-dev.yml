@@ -1,28 +1,21 @@
 server:
-  port: 6900
-spring: 
+  port: 8080
+spring:
   cloud: 
     config: 
-      profile: default 
+      profile: dev 
       label: master
       discovery: 
+        fail-fast: true
         enabled: true
         service-id:  config-server
-  application:
-    name: microservice-bookmark
   rabbitmq: 
     host: localhost
     port: 5672
     username: hoob
-    password: zhuqinhe
-  data: 
-    mongodb: 
-      uri: mongodb://localhost:27017/favorite
-      option: 
-        min-connection-per-host: 0
-        max-connection-per-host: 10
-        max-wait-time: 10000
-        connect-timeout : 30000
+    password: zhuqinhe 
+  application:
+    name: microservice-test
 logging:
   level:
     root: INFO
@@ -37,11 +30,19 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
     lease-renewal-interval-in-seconds: 10 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改    
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
-management:                  
+management:
   endpoints: 
     web:
       exposure:
-        include: bus-refresh #暴漏shutdown端点服务
-
-profile: default
+        include: bus-refresh 
+  endpoint:
+    shutdown:
+      enabled: true
+    health: 
+      show-details: ALWAYS     
+microservice-bookmark: #收藏微服务选用轮训的负载均衡方式
+  ribbon: 
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule  
+microservice-favorite: #收藏微服务选用轮训的负载均衡方式
+  ribbon: 
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule    

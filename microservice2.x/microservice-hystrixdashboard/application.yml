@@ -1,0 +1,31 @@
+server:
+  port: 2000
+spring: 
+  cloud: 
+    config: 
+      profile: dev 
+      label: master
+      discovery: 
+        fail-fast: true
+        enabled: true
+        service-id:  config-server
+  rabbitmq: 
+    host: localhost
+    port: 5672
+    username: hoob
+    password: zhuqinhe
+  application:
+    name: microservice-hystrixdashboard   
+eureka:
+  client: 
+    serviceUrl:
+      defaultZone: http://hoob:hoobzhu@localhost:8761/eureka
+  instance: 
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 30 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

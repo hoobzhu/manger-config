@@ -1,15 +1,16 @@
 server:
-  port: 6900
+  port: 6800
 spring: 
   cloud: 
     config: 
-      profile: dev 
+      profile: default 
       label: master
       discovery: 
+        fail-fast: true
         enabled: true
         service-id:  config-server
   application:
-    name: microservice-bookmark
+    name: microservice-favorite
   rabbitmq: 
     host: localhost
     port: 5672
@@ -36,10 +37,12 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
-    lease-renewal-interval-in-seconds: 10 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改    
+    lease-renewal-interval-in-seconds: 30 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改    
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
-management:                  
-  security:
-    enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
 
-profile: dev
+profile: favorite-default
