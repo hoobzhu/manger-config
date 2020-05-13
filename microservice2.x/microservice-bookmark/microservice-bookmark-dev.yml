@@ -30,7 +30,7 @@ logging:
 eureka:
   client:
     healthcheck:
-      enabled: false
+      enabled: true
     serviceUrl:
       defaultZone: http://hoob:hoobzhu@localhost:8761/eureka
   instance:
@@ -42,5 +42,5 @@ management:
   endpoints: 
     web:
       exposure:
-        include: "*" #暴漏shutdown端点服务     
+        include: bus-refresh #暴漏shutdown端点服务     
 profile: hoob-dev
