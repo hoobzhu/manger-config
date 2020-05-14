@@ -30,3 +30,8 @@ turbine:
   appConfig:  microservice-favorite-consumer,microservice-bookmark-consumer,microservice-zuul #,microservice-gateway
   clusterNameExpression: "'default'"
   combine-host-port: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
