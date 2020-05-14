@@ -35,7 +35,10 @@ eureka:
     # 如果该值太大，则很可能将流量转发过去的时候，该instance已经不存活了。
     # 如果该值设置太小了，则instance则很可能因为临时的网络抖动而被摘除掉。
     # 该值至少应该大于 leaseRenewalIntervalInSeconds
-    lease-expiration-duration-in-seconds: 10    
+    lease-expiration-duration-in-seconds: 10
+feign: 
+  hystrix:
+    enabled: true    
 management:
   endpoints: 
     web:
