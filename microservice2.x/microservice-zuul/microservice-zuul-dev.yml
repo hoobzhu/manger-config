@@ -35,7 +35,7 @@ zuul:
       serviceId: microservice-favorite-consumer
     microservice-bookmark-consumer: 
       path: /bookmark/**
-      serviceId: microservice-favorite-consumer  
+      serviceId: microservice-bookmark-consumer  
   ratelimit: #zuul  限流配置
     enabled: true
     repository: redis
