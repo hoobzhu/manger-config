@@ -1,0 +1,80 @@
+server:
+  port: 9000
+spring: 
+  application:
+    name: microservice-zuul
+  redis: 
+    host: 127.0.0.1
+    port: 6379
+  cloud: 
+    config:
+      profile: dev 
+      label: master
+      discovery:
+        enabled: true
+        service-id:  config-server
+  rabbitmq: 
+    host: localhost
+    port: 5672
+    username: hoob
+    password: zhuqinhe
+eureka:
+  client:
+    service-url:
+      defaultZone: http://hoob:hoobzhu@localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 30 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改
+zuul:
+#微服务路由配置
+  ignoredServices: '*'  #暴力忽略所有的微服务代理，只有在下面配置了才代理
+  routes: 
+    microservice-favorite-consumer: 
+      path: /favorite/**
+      serviceId: microservice-favorite-consumer
+    microservice-bookmark-consumer: 
+      path: /bookmark/**
+      serviceId: microservice-favorite-consumer  
+  ratelimit: #zuul  限流配置
+    enabled: true
+    repository: redis
+    default-policy: #默认的流控策略   所有服务在300秒内只能有100次请求且所有请求时间总和不得超过20秒
+      limit: 100
+      quota: 20
+      refresh-interval: 300
+      type: url
+    policies:
+      microservice-favorite-consumer: # microservice-favorite-consumer 的流控策略   所有服务在60秒内只能有2次请求且所有请求时间总和不得超过20秒
+        limit: 2
+        quota: 20
+        refresh-interval: 60
+        type: url
+hystrix:
+  command:
+    default: #全局默认的hystrix 配置
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+    microservice-favorite-consumer: #单个服务的配置
+       execution:
+         isolation:
+           thread:
+             timeoutInMilliseconds: 200
+#全局ribbon peizhi
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 1000    
+microservice-favorite-consumer: #单个服务器的ribbon配置
+   ribbon: 
+     NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+     listOfServers: http://localhost:8082
+     ConnectTimeout: 1000
+     ReadTimeout: 500
+     MaxTotalHttpConnections: 500
+     MaxConnectionsPerHost: 100
+# 服务薇自定义配置  
+customize:
+  config:
+    verifyHMAC: 0
