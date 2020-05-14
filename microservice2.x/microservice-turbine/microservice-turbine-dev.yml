@@ -27,6 +27,6 @@ turbine:
   aggregator:
     clusterConfig: default
   #appConfig: microservice-favorite,microservice-bookmark,microservice-zuul
-  appConfig: microservice-favorite-consumer,microservice-bookmark-consumer,microservice-zuul
+  appConfig: microservice-favorite-consumer,microservice-bookmark-consumer,microservice-zuul,microservice-gateway
   clusterNameExpression: "'default'"
   combine-host-port: true

@@ -1,0 +1,71 @@
+server:
+  port: 10000
+spring: 
+  application:
+    name: microservice-gateway
+  redis: 
+    host: 127.0.0.1
+    port: 6379
+  rabbitmq: 
+    host: localhost
+    port: 5672
+    username: hoob
+    password: zhuqinhe
+  cloud:
+   config:
+      profile: dev 
+      label: master
+      discovery:
+        enabled: true
+        service-id:  config-server
+   gateway: 
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
+      routes:
+        - id: microservice-favorite-consumer # 路由的id,没有规定规则但要求唯一,建议配合服务名
+          #lb://微服务名
+          uri: lb://microservice-favorite-consumer
+          predicates:  #Path、Query、Method、Header等
+            - Path= /favorite/**  # 断言，路径相匹配的进行路由 
+            #- Cookie=username,zzyy
+            #- Header=X-Request-Id, \d+ #请求头要有X-Request-Id属性，并且值为正数
+            #- Host=127.0.0.1
+          filters:
+              - name: Hystrix
+                args:
+                  name: favoriteFallback
+                  fallbackUri: forward:/favoritefallback
+              - StripPrefix=1 #去掉前缀，具体实现参考StripPrefixGatewayFilterFactory
+              - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+        - id: microservice-bookmark-consumer # 路由的id,没有规定规则但要求唯一,建议配合服务名
+          #lb://微服务名
+          uri: lb://microservice-bookmark-consumer
+          predicates: 
+            - Path= /bookmark/**  # 断言，路径相匹配的进行路由 
+            #- Cookie=username,zzyy
+            #- Header=X-Request-Id, \d+ #请求头要有X-Request-Id属性，并且值为正数
+            #- Host=127.0.0.1
+          filters: 
+              - name: Hystrix
+                args:
+                  name: bookmarkFallback
+                  fallbackUri: forward:/bookmarkfallback
+              - StripPrefix=1 #去掉前缀，具体实现参考StripPrefixGatewayFilterFactory
+              - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+eureka:
+  client:
+#    healthcheck:
+#      enabled: false
+    serviceUrl:
+      defaultZone: http://hoob:hoobzhu@localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 30 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改    
+    # 表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance。
+    # 默认为90秒
+    # 如果该值太大，则很可能将流量转发过去的时候，该instance已经不存活了。
+    # 如果该值设置太小了，则instance则很可能因为临时的网络抖动而被摘除掉。
+    # 该值至少应该大于 leaseRenewalIntervalInSeconds
+    lease-expiration-duration-in-seconds: 10 

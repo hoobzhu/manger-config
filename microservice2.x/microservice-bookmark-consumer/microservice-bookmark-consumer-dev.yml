@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 6901
 spring:
   cloud: 
     config: 
