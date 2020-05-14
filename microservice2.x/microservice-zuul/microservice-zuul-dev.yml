@@ -69,7 +69,7 @@ ribbon:
 microservice-favorite-consumer: #单个服务器的ribbon配置
    ribbon: 
      NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
-     listOfServers: http://localhost:8082
+     listOfServers: http://localhost:6801
      ConnectTimeout: 1000
      ReadTimeout: 500
      MaxTotalHttpConnections: 500
