@@ -23,15 +23,6 @@ spring:
         max-connection-per-host: 10
         max-wait-time: 10000
         connect-timeout : 30000
-  boot:
-    admin:
-      client:
-        url: "http://localhost:5000"   #指定SpringBootAdmin服务端地址
-        password: hoob
-        username: hoobzhu
-        instance:
-          prefer-ip-address: true
-          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
 logging:
   level:
     root: INFO
