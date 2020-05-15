@@ -9,7 +9,7 @@ spring:
       name: hoob
       password: hoobzhu
   basic: 
-    enabled: true
+    enabled: false
   endpoints: 
     health: 
       sensitive: true
