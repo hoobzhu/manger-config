@@ -45,10 +45,13 @@ eureka:
     # 该值至少应该大于 leaseRenewalIntervalInSeconds
     lease-expiration-duration-in-seconds: 10  
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
-management:
-  endpoints:
+management:                  
+  endpoints: 
     web:
       exposure:
-        include: bus-refresh
+        include: "*"
+  endpoint:
+    health:
+      show-details: always     
 
 profile: favorite-dev

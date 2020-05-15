@@ -9,7 +9,7 @@ spring:
       name: hoob
       password: hoobzhu
   basic: 
-    enabled: false
+    enabled: true
   endpoints: 
     health: 
       sensitive: true
@@ -46,11 +46,11 @@ eureka:
     instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
     lease-renewal-interval-in-seconds: 30 #eureka客户端需要向eureka服务器发送心跳以指示它仍然存在的频率（以秒为单位）默认30 ，生成环境不建议修改
 
-management:
-  endpoints:
+management:                  
+  endpoints: 
     web:
       exposure:
-        include: "*"  #暴露所有的端点我们可以看到更多应用相关信息
+        include: "*"
   endpoint:
     health:
-      show-details: ALWAYS  #health endpoint是否必须显示全部细节
+      show-details: always     
