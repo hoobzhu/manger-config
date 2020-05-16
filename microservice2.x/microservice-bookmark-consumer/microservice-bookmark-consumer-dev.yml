@@ -16,6 +16,8 @@ spring:
     password: zhuqinhe 
   application:
     name: microservice-bookmark-consumer
+  zipkin:
+    base-url: http://localhost:4000
 logging:
   level:
     root: INFO
