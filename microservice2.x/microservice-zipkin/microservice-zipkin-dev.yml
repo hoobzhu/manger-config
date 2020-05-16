@@ -19,12 +19,13 @@ spring:
   #表示当前程序不使用sleuth
   sleuth: 
     enabled: false
- #spring boot数据源配置
+druid:
+  enable: true
   datasource:
     url: jdbc:mysql://localhost:3306/zipkin?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
-    username: appuser
+    username: appuser   
     password: appuser
-    driver-class-name: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.jdbc.Driver
 #表示zipkin数据存储方式是mysql
 zipkin: 
   storage: 
