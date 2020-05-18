@@ -20,7 +20,7 @@ spring:
     base-url: http://localhost:9411
     #使用默认 http 方式收集 span 需要配置此项
     sender: 
-      type: web   #rabbit 使用 rabbitmq 来向 zipkin 发送数据
+      type: rabbit   #rabbit 使用 rabbitmq 来向 zipkin 发送数据
   sleuth: 
     sampler:  
       probability: 1.0
